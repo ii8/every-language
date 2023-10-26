@@ -34,7 +34,7 @@ clean:
 benchmark: helloworld.bench
 	$(MAKE) -B Bench.gren
 
-helloworld.bench: $(addsuffix /result,$(wildcard benchmark/helloworld/*))
+helloworld.bench: $(addsuffix result,$(wildcard benchmark/helloworld/*/))
 	cat $^ > helloworld.bench
 
 benchmark/helloworld/%/result:
