@@ -24,6 +24,10 @@ Bench.gren: Makefile
 	echo '  _ -> 0' >> Bench.gren
 	echo >> Bench.gren
 
+minify: main.js style.css
+	minify -o main.js main.js
+	minify -o style.css style.css
+
 clean:
 	rm -f main.js style.css Lang.gren langlist Bench.gren helloworld.bench
 
@@ -37,4 +41,4 @@ benchmark/helloworld/%/result:
 	docker build -t helloworld $(dir $@)
 	docker run --rm helloworld cat result > $(dir $@)result
 
-.PHONY: all clean benchmark
+.PHONY: all minify clean benchmark

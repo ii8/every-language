@@ -31,8 +31,11 @@ jobs:
           chmod +x tailwindcss-linux-x64
           mv tailwindcss-linux-x64 /usr/local/bin/tailwindcss
 
+      - run: sudo apt-get install minify
+
       - run: make benchmark
       - run: make
+      - run: make minify
 
       - uses: actions/upload-pages-artifact@v2
         with:
