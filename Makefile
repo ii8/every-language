@@ -2,7 +2,7 @@
 all: main.js style.css
 
 main.js: Main.gren Lang.gren Bench.gren
-	gren make Main.gren --output main.js
+	gren make --optimize Main.gren --output main.js
 
 style.css: Main.gren tailwind.config.js
 	tailwindcss -o style.css

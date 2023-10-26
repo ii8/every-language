@@ -358,15 +358,19 @@ rangeToBytes i =
   let f = toFloat i in
   Math.round (1024 * (2^(f * (17/1000))))
 
+strRound : Float -> String
+strRound = String.fromInt << Math.truncate
+
 ppBytes : Int -> String
 ppBytes b =
-  let m = 1024 * 1024 in
-  if b > 2 * m then
-    String.fromInt (b // m) ++ "M"
+  let m = 1024 * 1024
+      f = toFloat b in
+  if b > 10 * m then
+    strRound (f / m) ++ "M"
   else if b > m then
-    String.fromInt (b // m) ++ "." ++ String.left 1 (String.fromInt (b - m)) ++ "M"
+    strRound (f / m) ++ "." ++ strRound (10 * (f / m - toFloat (b // m))) ++ "M"
   else
-    String.fromInt (b // 1024) ++ "K"
+    strRound (f / 1024) ++ "K"
 
 range : Int -> String -> String -> Int -> Int -> (Int -> Msg) -> Html Msg
 range m title desc min max msg =

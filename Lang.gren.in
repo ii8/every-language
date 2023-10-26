@@ -138,7 +138,7 @@ def(Parallelism, pe,
     Parallel execution paradigm,
     TransparentPE,           Transparent,     Code may be executed in parallel but the semantics of the language are unaffected,
     AutomaticPE,             Automatic,       The programmer can specify the desired parallelism but data sharing between execution threads is handled automatically,
-    MessagePassingPE,        Message Passing, Threads are isolated and communicate only by passing messages through channels,
+    MessagePassingPE,        Message Passing, Threads are isolated and communicate only by exchanging messages,
     ControlledSharedStatePE, Safe sharing,    Multiple threads can access the same memory but the language semantics ensures that no data races are possible,
     ManualSharedStatePE,     Shared state,    Multiple threads have access to the same memory uninhibited)
 

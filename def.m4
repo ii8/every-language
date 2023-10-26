@@ -4,8 +4,6 @@ changequote(«, »)
 define(«_nl», «
 »)
 
-define(«comma», «,»)
-
 define(«_shift2», «shift(shift($@))»)
 define(«_shift3», «shift(shift(shift($@)))»)
 define(«_shift4», «shift(shift(shift(shift($@))))»)

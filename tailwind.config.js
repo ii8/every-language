@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["Main.gren", "Style.gren"],
+  content: ["Main.gren"],
   theme: {
     extend: {
       boxShadow: {
