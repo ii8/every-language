@@ -1,0 +1,8 @@
+main.js
+style.css
+langlist
+Lang.gren
+Bench.gren
+benchmark/*/*/result
+*.bench
+.gren

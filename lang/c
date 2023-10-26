@@ -1,0 +1,48 @@
+language = "c"
+name = "C"
+homepage = Nothing
+spec = Informal
+status = Mainstream
+
+impl = Standalone
+domain = [ GeneralPurpose, Firmware ]
+platform = [ Linux, Windows, MacOS ]
+
+typing = Static
+safety = None
+mm = ManualMM
+everything = AMess
+
+paradigms = [ Imperative ]
+parallelism = [ ManualSharedStatePE ]
+features = [ Goto, Macros, MutableState, NominalTyping ]
+concurrency = [ HardwareThreads ]
+runtime = [ Stack ]
+
+elegance = Embarrassing
+example =
+  """
+  #include <string.h>
+  #include <stdio.h>
+  
+  struct hello {
+  	char *h;
+  	char w[6];
+  };
+  
+  static void init(struct hello *hi)
+  {
+  	hi->h = "Hello";
+  	strcpy(hi->w, "World");
+  }
+  
+  int main(void)
+  {
+  	struct hello hi;
+  
+  	init(&hi);
+  	for (int i = 0; i <= 3; i++)
+  		printf("%s %s!\\n", hi.h, hi.w);
+  	return 0;
+  }
+  """

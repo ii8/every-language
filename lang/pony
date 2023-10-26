@@ -1,0 +1,57 @@
+language = "pony"
+name = "Pony"
+homepage = Just "https://www.ponylang.io/"
+spec = Tutorial
+status = Active
+
+impl = Standalone
+domain = [ GeneralPurpose, Distributed ]
+platform = [ Linux, Windows, MacOS ]
+
+typing = Static
+safety = TypeSafe
+mm = AutomaticMM
+everything = AMess
+
+paradigms = [ Imperative, OOPClasses ]
+parallelism = [ ControlledSharedStatePE ]
+features = [ MutableState, NominalTyping, StructuralTyping, Exceptions, ParametricPoly ]
+concurrency = [ Actors, MessagePassing ]
+runtime = [ Stack, Scheduler, GarbageCollector, ErrorHandling, Abstraction ]
+
+elegance = Impressive
+example =
+  """
+  use "collections"
+
+  class Circle
+    var _radius: F32
+
+    new create(radius': F32) =>
+      _radius = radius'
+
+    fun ref get_radius(): F32 =>
+      _radius
+
+    fun ref get_area(): F32 =>
+      F32.pi() * _radius.pow(2)
+
+    fun ref get_circumference(): F32 =>
+      2 * _radius * F32.pi()
+
+  actor Main
+    new create(env: Env) =>
+
+      for i in Range[F32](1.0, 101.0) do
+        let c = Circle(i)
+
+        var str =
+          recover val
+            "Radius: " + c.get_radius().string() + "\\n" +
+            "Circumference: " + c.get_circumference().string() + "\\n" +
+            "Area: " + c.get_area().string() + "\\n"
+          end
+
+        env.out.print(str)
+      end
+  """

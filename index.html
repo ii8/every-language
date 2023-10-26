@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Loading...</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    body {
+      background-color: #0f172a;
+    }
+    input[type="range"][orient="vertical"] {
+      writing-mode: bt-lr;
+      appearance: slider-vertical;
+    }
+    </style>
+    <script src="main.js"></script>
+  </head>
+  <body class="bg-slate-900">
+    <div id="gren"></div>
+    <script>
+    var app = Gren.Main.init({
+      node: document.getElementById('gren')
+    });
+    </script>
+  </body>
+</html>

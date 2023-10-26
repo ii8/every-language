@@ -1,0 +1,43 @@
+language = "twelf"
+name = "Twelf"
+homepage = Just "http://twelf.org/wiki/Main_Page"
+spec = Informal
+status = Unmaintained
+
+impl = Standalone
+domain = [ ProofAssistant ]
+platform = [ Linux, Windows, MacOS ]
+
+typing = Static
+safety = TypeSafe
+mm = NoMM
+everything = AFunction
+
+paradigms = [ Functional ]
+parallelism = [ ]
+features = [ NominalTyping, TypeInference, Dependent ]
+concurrency = [ ]
+runtime = [ Interpreter, Unifier, Solver ]
+
+elegance = Impressive
+example =
+  """
+  %% natural numbers
+  nat : type.
+  z   : nat.
+  s   : nat -> nat.
+
+  even   : nat -> type.
+  even-z : even z.
+  even-s : even (s (s N))
+            <- even N.
+
+  plus   : nat -> nat -> nat -> type.
+  plus-z : plus z N2 N2.
+  plus-s : plus (s N1) N2 (s N3)
+            <- plus N1 N2 N3.
+
+  %mode plus +N1 +N2 -N3.
+  %worlds () (plus _ _ _).
+  %total N1 (plus N1 _ _).
+  """

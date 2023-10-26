@@ -1,0 +1,40 @@
+language = "x86-64"
+name = "x86-64"
+homepage = Nothing
+spec = Informal
+status = Mainstream
+
+impl = Standalone
+domain = [ Firmware ]
+platform = [ Linux, Windows ]
+
+typing = Dynamic
+safety = None
+mm = ManualMM
+everything = AMess
+
+paradigms = [ Imperative ]
+parallelism = [ ManualSharedStatePE ]
+features = [ Goto, Macros, MutableState, Reflection, Introspection ]
+concurrency = [ HardwareThreads ]
+runtime = [ ]
+
+elegance = Embarrassing
+example =
+  """
+  .globl _start
+  .data
+  msg:
+  	.ascii "Hello, World!\n"
+  	len = . - msg
+  .text
+  _start:
+  	mov	$1, %rax
+  	mov	$1, %rdi
+  	mov	$msg, %rsi
+  	mov	$len, %rdx
+  	syscall
+  	mov	$60, %rax
+  	xor	%rdi, %rdi
+  	syscall
+  """

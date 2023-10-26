@@ -1,0 +1,52 @@
+language = "haskell"
+name = "Haskell"
+homepage = Just "https://www.haskell.org/"
+spec = Informal
+status = Mainstream
+
+impl = Standalone
+domain = [ GeneralPurpose ]
+platform = [ Linux, Windows, MacOS ]
+
+typing = Static
+safety = TypeSafe
+mm = AutomaticMM
+everything = AFunction
+
+paradigms = [ Functional ]
+parallelism = [ TransparentPE ]
+features = [ Closures, TypeInference, NominalTyping, Lazy, OffSideRule ]
+concurrency = [ STM ]
+runtime = [ Stack, Scheduler, GarbageCollector, ErrorHandling, Abstraction ]
+
+elegance = Acceptable
+example =
+  """
+  import qualified Data.Time as Time
+
+  data Visitor
+    = Member Profile
+    | NonMember
+
+  data Profile = Profile { name :: String, birthday :: Time.Day }
+
+  main :: IO ()
+  main = do
+    let haskell = Member Profile
+          { name = "Haskell Curry"
+          , birthday = read "1900-09-12"
+          }
+    greeting <- makeGreeting haskell
+    putStrLn $ greeting
+
+  makeGreeting :: Visitor -> IO String
+  makeGreeting visitor =
+    case visitor of
+      NonMember -> pure "Hello, mysterious visitor!"
+      Member profile -> do
+        today <- Time.utctDay <$> Time.getCurrentTime
+        let monthAndDay = (\\(_y, m, d) -> (m, d)) . Time.toGregorian
+        if monthAndDay today == monthAndDay (birthday profile)
+          then pure $ "Happy birthday, " <> name profile <> "!"
+          else pure $ "Welcome back, " <> name profile <> "!"
+  """

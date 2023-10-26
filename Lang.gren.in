@@ -1,0 +1,196 @@
+include(def.m4)dnl
+module Lang exposing (..)
+
+type alias Parameter a =
+  { title : String
+  , desc : String
+  , options : Array a
+  , name : a -> String
+  , tip : a -> String
+  }
+
+type alias Language =
+  { language : String
+  , name : String
+  , homepage : Maybe String
+  , spec : Specification
+  , status : Status
+
+  , impl : Implementation
+  , domain : Array Domain
+  , platform : Array Platform
+
+  , typing : Typing
+  , safety : Safety
+  , mm : MemoryManagement
+  , everything : Everything
+
+  , paradigms : Array Paradigm
+  , parallelism : Array Parallelism
+  , features : Array Feature
+  , concurrency : Array Concurrency
+  , runtime : Array Runtime
+
+  , elegance : Elegance
+  , example : String
+  }
+
+def(Specification, spec,
+    Specification,
+    Who says?,
+    Tutorial, Tutorial, Only a tutorial or reference that teaches how to use the language but no proper definition,
+    Informal, Informal, An informal but complete language definition,
+    Formal,   Formal,   A rigorous formal definition of the whole language)
+
+def(Status, status,
+    Status,
+    It's not dead yet(copium),
+    Mainstream,   Mainstream,   Widely used,
+    Active,       Active,       Active userbase and a maintained implementation but not exactly mainstream,
+    Unmaintained, Unmaintained, Some users but no well-maintained implementation,
+    Dead,         Dead,         Not used for real projects anymore)
+
+def(Implementation, impl,
+    Implementation,
+    Implementation,
+    Standalone, Standalone, An independent programming language with a dedicated compiler or interpreter,
+    Embedded,   Embedded,   A language embedded in another language building on top of it and extending it's capabilities)
+
+def(Domain, domain,
+    Domain,
+    Find languages designed for a specific domain,
+    GeneralPurpose,      General Purpose,    Languages designed to address many problems and not focused on a specific domain,
+    Firmware,            Embedded,           Languages well suited to writing firmware and embedded software,
+    UserInterface,       User Interface,     Languages designed to create user interfaces,
+    Shell,               Shell,              Languages designed to be used as a human-computer command interface,
+    ParallelComputing,   Massively Parallel, Languages designed to write programs for massively parallel architectures,
+    Distributed,         Distributed,        Languages designed for concurrency and distributed systems,
+    Extension,           Extension,          Languages suitable for embedding in larger programs as an extension language,
+    ProofAssistant,      Proof Assistant,    Languages designed to express mathematical propositions and proofs,
+    Query,               Query,              Languages designed to describe datasets,
+    DataRepresentation,  Structure,          Languages designed to represent data structures,
+    HardwareDescription, HDL,                Hardware description languages,
+    QuantumComputing,    Quantum,            Languages designed for quantum computing,
+    Esoteric,            Esoteric,           Genius and useless)
+
+def(Platform, platform,
+    Platform,
+    Select every platform that needs to be supported,
+    Linux,   Linux,   «Linux, BSDs and other Unix family systems»,
+    Windows, Windows, OS by Microsoft,
+    MacOS,   MacOS,   OS by Apple,
+    Web,     Web,     «User interface platform comprised of HTML, JavaScript and CSS»,
+    Android, Android, Mobile device OS based on Linux by Google,
+    IOS,     IOS,     Mobile device OS by Apple)
+
+def(Typing, typing,
+    Typing,
+    «Check'em, but when?»,
+    Dynamic, Dynamic, Types are checked at runtime,
+    Partial, Partial, Types are sometimes checked at runtime,
+    Static,  Static,  Type checking happens before the program is executed)
+
+def(Safety, safety,
+    Safety,
+    «Ignore this, it's not needed, revolt against the health and safety craze»,
+    None,       None,           Programs can access memory in an unsafe way if the programmer makes mistakes,
+    MemorySafe, Memory safe,    Programs cannot access memory in an unsafe way but can apply operations to inappropriate values,
+    TypeSafe,   Type safe,      Programs cannot apply operations to inappropriate values,
+    Verified,   Fully verified, Compiler-checked formal proof of correctness possible within the language)
+
+def(MemoryManagement, mm,
+    Memory Mgmt.,
+    I forgot,
+    NoMM,         None,       No memory management,
+    ManualMM,     Manual,     Manual memory management,
+    ControlledMM, Controlled, Manual memory management with restrictions designed to prevent memory errors,
+    AutomaticMM,  Automatic,  Fully automatic memory management)
+
+def(Everything, everything,
+    Everything is,
+    Everything will be all right,
+    AFunction, a Function, Everything is a function,
+    AList,     a List,     Everything is a list,
+    AStack,    a Stack,    The stack is used for everything,
+    AnObject,  an Object,  Everything is an object,
+    AnActor,   an Actor,   Everything is an actor,
+    AnArray,   an Array,   Everything is an array,
+    AString,   a String,   Everything is a string,
+    AMess,     a Mess,     Everything is different)
+
+def(Paradigm, paradigm,
+    Paradigm,
+    Find languages that support at least one of the selected paradigms,
+    Imperative,    Imperative,     Programs consist of sequential state changing statements with explicit control flow constructs,
+    Functional,    Functional,     Programs are constructed by application and composition of functions,
+    Logic,         Logic,          Programs are expressed as logical facts and rules,
+    Constraint,    Constraint,     Constraint programming,
+    Concatenative, Concatenative,  Concatenation is function composition,
+    DataDriven,    Data-driven,    Program statements describe the data to be matched and the processing required,
+    EventDriven,   Event-driven,   Flow of the program is determined by events,
+    Reactive,      Reactive,       Programs are descriptions of how changes propagate,
+    FlowBased,     Flow-based,     Programs are composed of nodes that communicate over predefined connections,
+    OOPClasses,    OOP Classes,    Programs consist of objects and their properties come from class definitions,
+    OOPPrototypes, OOP Prototypes, Programs consist of objects and their properties come by inheriting from other objects)
+
+def(Parallelism, pe,
+    Parallelism,
+    Parallel execution paradigm,
+    TransparentPE,           Transparent,     Code may be executed in parallel but the semantics of the language are unaffected,
+    AutomaticPE,             Automatic,       The programmer can specify the desired parallelism but data sharing between execution threads is handled automatically,
+    MessagePassingPE,        Message Passing, Threads are isolated and communicate only by passing messages through channels,
+    ControlledSharedStatePE, Safe sharing,    Multiple threads can access the same memory but the language semantics ensures that no data races are possible,
+    ManualSharedStatePE,     Shared state,    Multiple threads have access to the same memory uninhibited)
+
+def(Feature, feat,
+    Features,
+    Find langauges that support all of the selected features,
+    Goto,              Goto,                Statement that transfers control to another location in the program,
+    Closures,          Closures,            Lexically scoped functions that when executed can access data in scope at the time of their definition,
+    Macros,            Macros,              Constructs that can generate source code inside the language itself for better code reuse,
+    MutableState,      Mutable state,       Named mutable state,
+    NominalTyping,     Nominal typing,      Type equality depends on the names of the types,
+    StructuralTyping,  Structural typing,   Type equality depends on the structure of the types,
+    TypeInference,     Type inference,      Types can be inferred automatically without the programmer specifying them,
+    Exceptions,        Exceptions,          The ability to transfer control to an error handler from anywhere,
+    Reflection,        Reflection,          The ability for a program to modify itself at runtime,
+    Introspection,     Introspection,       The ability for a program to examine itself at runtime,
+    Lazy,              Lazy,                Deferring evaluation of terms until the result is needed,
+    Homoiconic,        Homoiconic,          The program is expressed as a primitive data structure of the language itself,
+    ArrayProgramming,  Array prog.,         Array programming: Operations that work on scalars also transparently work on vectors and higher-dimensional arrays,
+    OffSideRule,       Off-side rule,       Indentation is syntactically significant,
+    AdHocPoly,         Ad hoc poly.,        Ad hoc polymorphism: Functions can be defined for and applied to arguments of different types,
+    ParametricPoly,    Parametric poly.,    Parametric polymorphism: functions can be defined over a set of several types,
+    Dependent,         Dependent types,     The meaning of types can depend on values)
+
+def(Concurrency, concurrency,
+    Concurrency,
+    Features geared towards concurrency,
+    HardwareThreads,  Hardware Threads,      Synchronization primitives for using multi-threaded CPU capabilities directly,
+    Coroutines,       Coroutines,            «Functions can suspend execution, yield to a scheduler and resume later»,
+    Actors,           Actors,                Communicating actors or processes,
+    STM,              STM,                   Software Transactional Memory,
+    AsyncAwait,       Async/await,           Asynchronous I/O syntax feature,
+    Channels,         Channels,              Synchronization via message passing,
+    MessagePassing,   Asynchronous messages, Asynchronous message passing)
+
+def(Runtime, runtime,
+    Runtime,
+    Extra functionality included in programs that are not explicitly added by the programmer,
+    Stack,            Managed Stack,     The runtime handles stackframes and calling convention,
+    Interpreter,      Interpreter,       The runtime interprets the source code or bytecode during execution,
+    Scheduler,        Scheduler,         A scheduler that handles some aspects of concurrency,
+    GarbageCollector, Garbage Collector, A garbage collector that helps with memory management,
+    ErrorHandling,    Error Handling,    The runtime checks types and prints diagnostic information in case of a crash,
+    Abstraction,      Interface Helper,  The runtime contains abstractions for I/O interfaces,
+    Unifier,          Unifier,           Equation solver,
+    Solver,           Solver,            An engine in the runtime performs the algorithms to execute declarative code,
+    Hotswapping,      Hotswapping,       Parts of the program can be updated while it is running,
+    VirtualMachine,   Virtual Machine,   The program is executed inside a virtual machine)
+
+def(Elegance, elegance,
+    Elegance,
+    «Disagree? Too bad, you're wrong»,
+    Impressive,   Impressive,   The work of a genius,
+    Acceptable,   Acceptable,   Works well enough,
+    Embarrassing, Embarrassing, Design by committee or by fool)

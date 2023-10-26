@@ -1,0 +1,77 @@
+language = "mercury"
+name = "Mercury"
+homepage = Just "https://mercurylang.org/"
+spec = Informal
+status = Active
+
+impl = Standalone
+domain = [ GeneralPurpose ]
+platform = [ Linux, Windows, MacOS ]
+
+typing = Static
+safety = TypeSafe
+mm = AutomaticMM
+everything = AMess
+
+paradigms = [ Logic, Functional ]
+parallelism = []
+features = [ Exceptions, TypeInference, NominalTyping, Closures ]
+concurrency = []
+runtime = [ Stack, ErrorHandling, Unifier, Solver, GarbageCollector ]
+
+elegance = Acceptable
+example =
+  """
+  :- module beer.
+  :- interface.
+  :- import_module io.
+  
+  :- pred main(io::di, io::uo) is det.
+  
+  :- implementation.
+  
+  :- import_module int.
+  :- import_module list.
+  :- import_module string.
+  
+  main(!IO) :-
+      beer(99, !IO).
+  
+  :- pred beer(int::in, io::di, io::uo) is det.
+  
+  beer(N, !IO) :-
+      io.write_string(beer_stanza(N), !IO),
+      ( if N > 0 then
+          io.nl(!IO),
+          beer(N - 1, !IO)
+      else
+          true
+      ).
+  
+  :- func beer_stanza(int) = string.
+  
+  beer_stanza(N) = Stanza :-
+      ( if N = 0 then
+          Stanza = "Go to the store and buy some more!\\n"
+      else
+          NBottles = bottles_line(N),
+          N1Bottles = bottles_line(N - 1),
+          Stanza =
+              NBottles ++ " on the wall.\\n" ++
+              NBottles ++ ".\\n" ++
+              "Take one down, pass it around,\\n" ++
+              N1Bottles ++ " on the wall.\\n"
+      ).
+  
+  :- func bottles_line(int) = string.
+  
+  bottles_line(N) =
+      ( if N = 0 then
+          "No more bottles of beer"
+      else if N = 1 then
+          "1 bottle of beer"
+      else
+          string.format("%d bottles of beer", [i(N)])
+      ).
+  """
+  
