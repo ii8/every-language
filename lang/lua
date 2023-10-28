@@ -19,7 +19,7 @@ features = [ Goto, Closures, MutableState ]
 concurrency = [ Coroutines ]
 runtime = [ Stack, Interpreter, Scheduler, GarbageCollector, ErrorHandling, Abstraction, VirtualMachine ]
 
-elegance = Acceptable
+orthogonality = Acceptable
 example =
   """
   local num = tonumber(arg[1]) or 4

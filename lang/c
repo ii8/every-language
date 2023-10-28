@@ -19,7 +19,7 @@ features = [ Goto, Macros, MutableState, NominalTyping ]
 concurrency = [ HardwareThreads ]
 runtime = [ Stack ]
 
-elegance = Embarrassing
+orthogonality = Embarrassing
 example =
   """
   #include <string.h>

@@ -19,7 +19,7 @@ features = [ Closures, TypeInference, NominalTyping, Lazy, OffSideRule ]
 concurrency = [ STM ]
 runtime = [ Stack, Scheduler, GarbageCollector, ErrorHandling, Abstraction ]
 
-elegance = Acceptable
+orthogonality = Acceptable
 example =
   """
   import qualified Data.Time as Time

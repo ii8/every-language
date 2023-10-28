@@ -19,7 +19,7 @@ features = [ Exceptions, TypeInference, NominalTyping, Closures ]
 concurrency = []
 runtime = [ Stack, ErrorHandling, Unifier, Solver, GarbageCollector ]
 
-elegance = Acceptable
+orthogonality = Acceptable
 example =
   """
   :- module beer.

@@ -19,7 +19,7 @@ features = [ NominalTyping, TypeInference, Dependent ]
 concurrency = [ ]
 runtime = [ Interpreter, Unifier, Solver ]
 
-elegance = Impressive
+orthogonality = Impressive
 example =
   """
   %% natural numbers

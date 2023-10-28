@@ -19,7 +19,7 @@ features = [ Goto, Macros, MutableState, Reflection, Introspection ]
 concurrency = [ HardwareThreads ]
 runtime = [ ]
 
-elegance = Embarrassing
+orthogonality = Embarrassing
 example =
   """
   .globl _start

@@ -31,7 +31,7 @@ type alias Language =
   , concurrency : Array Concurrency
   , runtime : Array Runtime
 
-  , elegance : Elegance
+  , orthogonality : Orthogonality
   , example : String
   }
 
@@ -188,9 +188,9 @@ def(Runtime, runtime,
     Hotswapping,      Hotswapping,       Parts of the program can be updated while it is running,
     VirtualMachine,   Virtual Machine,   The program is executed inside a virtual machine)
 
-def(Elegance, elegance,
-    Elegance,
-    «Disagree? Too bad, you're wrong»,
+def(Orthogonality, ortho,
+    Orthogonality,
+    The language is consistent with few exceptions and few primitive constructs relative to it's expressive power,
     Impressive,   Impressive,   The work of a genius,
     Acceptable,   Acceptable,   Works well enough,
     Embarrassing, Embarrassing, Design by committee or by fool)

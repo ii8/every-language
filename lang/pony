@@ -19,7 +19,7 @@ features = [ MutableState, NominalTyping, StructuralTyping, Exceptions, Parametr
 concurrency = [ Actors, MessagePassing ]
 runtime = [ Stack, Scheduler, GarbageCollector, ErrorHandling, Abstraction ]
 
-elegance = Impressive
+orthogonality = Impressive
 example =
   """
   use "collections"

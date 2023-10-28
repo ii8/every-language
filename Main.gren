@@ -52,7 +52,7 @@ type alias Query =
   , features : Dict String Trilean
   , concurrency : Dict String Trilean
   , runtime : Dict String Trilean
-  , elegance : Array Lang.Elegance
+  , ortho : Array Lang.Orthogonality
   , helloworld : Int
   }
 
@@ -71,7 +71,7 @@ emptyQuery =
   , features = Dict.empty
   , concurrency = Dict.empty
   , runtime = Dict.empty
-  , elegance = []
+  , ortho = []
   , helloworld = 1000
   }
 
@@ -123,7 +123,7 @@ type Msg
   | ToggleFeature Lang.Feature
   | ToggleConcurrency Lang.Concurrency
   | ToggleRuntime Lang.Runtime
-  | ToggleElegance Lang.Elegance
+  | ToggleOrtho Lang.Orthogonality
   | DragHelloWorld Int
 
 select : a -> Maybe a -> Maybe a
@@ -185,7 +185,7 @@ update msg model =
     ToggleFeature o     -> query model (\q -> { q | features    = toggle3 (Lang.featName o) q.features })
     ToggleConcurrency o -> query model (\q -> { q | concurrency = toggle3 (Lang.concurrencyName o) q.concurrency })
     ToggleRuntime o     -> query model (\q -> { q | runtime     = toggle3 (Lang.runtimeName o) q.runtime })
-    ToggleElegance o    -> query model (\q -> { q | elegance    = toggle o q.elegance })
+    ToggleOrtho o       -> query model (\q -> { q | ortho       = toggle o q.ortho })
     DragHelloWorld i    -> query model (\q -> { q | helloworld  = i })
 
 
@@ -230,7 +230,7 @@ view m =
         , selectArray m.query.status      Lang.status      ToggleStatus
         , selectArray m.query.platform    Lang.platform    TogglePlatform
         , selectArray m.query.spec        Lang.spec        ToggleSpec
-        , selectArray m.query.elegance    Lang.elegance    ToggleElegance
+        , selectArray m.query.ortho       Lang.ortho       ToggleOrtho
         , selectArray m.query.everything  Lang.everything  ToggleEverything
         , div [ class "grow pr-1" ] [ ]
         ]
@@ -461,7 +461,7 @@ filter q l
   && filterAll q.features l.features Lang.featName
   && filterAll q.concurrency l.concurrency Lang.concurrencyName
   && filterAll q.runtime l.runtime Lang.runtimeName
-  && filterAny q.elegance l.elegance
+  && filterAny q.ortho l.orthogonality
   && filterHelloWorld q l
 
 filterDomain : Query -> Language -> Bool

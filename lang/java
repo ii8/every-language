@@ -19,7 +19,7 @@ features = [ MutableState, NominalTyping, Exceptions, Introspection, AdHocPoly ]
 concurrency = [ HardwareThreads ]
 runtime = [ Stack, Interpreter, Scheduler, GarbageCollector, ErrorHandling, Abstraction, VirtualMachine ]
 
-elegance = Embarrassing
+orthogonality = Embarrassing
 example =
   """
   public class Antiprime {

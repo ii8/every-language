@@ -19,7 +19,7 @@ features = [ Goto, MutableState, NominalTyping, TypeInference, Introspection ]
 concurrency = [ HardwareThreads, Coroutines, Channels ]
 runtime = [ Stack, Scheduler, GarbageCollector, ErrorHandling ]
 
-elegance = Embarrassing
+orthogonality = Embarrassing
 example =
   """
   package main
