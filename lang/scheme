@@ -1,0 +1,41 @@
+language = "scheme"
+name = "Scheme"
+homepage = Just "https://www.scheme.org/"
+spec = Formal
+status = Active
+
+impl = Standalone
+domain = [ GeneralPurpose, Extension ]
+platform = [ Linux, Windows, MacOS ]
+
+typing = Dynamic
+safety = MemorySafe
+mm = AutomaticMM
+everything = AList
+
+paradigms = [ Imperative, Functional ]
+parallelism = [ ]
+features = [ Closures, Macros, MutableState, Reflection, Introspection, Homoiconic ]
+concurrency = [ CallCC ]
+runtime = [ Stack, Interpreter, GarbageCollector, ErrorHandling, Abstraction, VirtualMachine ]
+
+orthogonality = Impressive
+example =
+  """
+  (define (take-eol cs)
+    (let loop ((c (cs-take cs)))
+      (unless (eqv? c #\\newline)
+              (loop (cs-take cs)))))
+
+  (define (token-syntax cs)
+    (let ((c (cs-take cs)))
+      (call/cc (lambda (ret)
+        (if (and (eqv? c #\\-) (eqv? (cs-peek cs) #\\-))
+            (begin (take-eol cs)
+                   (ret 'comment)))
+        (if (memv c punct-chars)
+            (string->symbol (string c))
+            (error (string-append
+              "unexpected character \\"" (string c)
+              "\\" at " (cs-pos cs))))))))
+  """
