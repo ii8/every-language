@@ -1,0 +1,39 @@
+language = "io"
+name = "Io"
+homepage = Just "https://iolanguage.org"
+spec = Tutorial
+status = Unmaintained
+
+impl = Standalone
+domain = [ GeneralPurpose, Extension ]
+platform = [ Linux, Windows, MacOS ]
+
+typing = Dynamic
+safety = MemorySafe
+mm = AutomaticMM
+everything = AnObject
+
+paradigms = [ Imperative, OOPPrototypes ]
+parallelism = [ ManualSharedStatePE, MessagePassingPE ]
+features = [ MutableState, NominalTyping, Exceptions, Reflection, Introspection, Lazy ]
+concurrency = [ Coroutines, Actors ]
+runtime = [ Stack, Interpreter, Scheduler, GarbageCollector, ErrorHandling, Abstraction, VirtualMachine ]
+
+orthogonality = Impressive
+example =
+  """
+  Account := Object clone do(
+    balance := 0.0
+    deposit := method(v,  balance = balance + v)
+    show := method(write("Account balance: $", balance, "\\n"))
+  )
+
+  "Inital: " print
+  Account show
+
+  "Depositing $10\\n" print
+  Account deposit(10.0)
+
+  "Final: " print
+  Account show
+  """
