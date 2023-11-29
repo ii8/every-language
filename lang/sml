@@ -1,0 +1,53 @@
+language = "sml"
+name = "Standard ML"
+homepage = Just "https://smlfamily.github.io"
+spec = Formal
+status = Active
+
+impl = Standalone
+domain = [ GeneralPurpose ]
+platform = [ Linux, Windows, MacOS ]
+
+typing = Static
+safety = TypeSafe
+mm = AutomaticMM
+everything = AMess
+
+paradigms = [ Imperative, Functional ]
+parallelism = [ ]
+features = [ Closures, MutableState, StructuralTyping, TypeInference, Exceptions, ParametricPoly ]
+concurrency = [ ]
+runtime = [ Stack, GarbageCollector, ErrorHandling, Abstraction ]
+
+orthogonality = Impressive
+example =
+  """
+  functor TreeParser (type instream
+                      val input1 : instream -> char option
+                      val lookahead : instream -> char option) =
+    struct
+      datatype tree = Leaf of char | Node of tree * tree
+
+      fun nextis c cs =
+        case lookahead cs of
+          NONE => false
+        | SOME c' => c' = c
+
+      fun parse cs =
+        case input1 cs of
+          NONE => raise Fail "invalid tree"
+        | SOME #"(" =>
+            let
+              fun loop l r =
+                if nextis #")" cs
+                then (input1 cs; Node (l, r))
+                else loop (Node (l, r)) (parse cs)
+            in
+              loop (parse cs) (parse cs)
+            end
+        | SOME c => Leaf c
+    end
+
+  structure TP = TreeParser(TextIO)
+  val tree = TP.parse(TextIO.openString "(a(bc)d)")
+  """
