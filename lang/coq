@@ -1,0 +1,36 @@
+language = "coq"
+name = "Coq"
+homepage = Just "https://coq.inria.fr/"
+spec = Informal
+status = Mainstream
+
+impl = Standalone
+domain = [ ProofAssistant ]
+platform = [ Linux, Windows, MacOS ]
+
+typing = Static
+safety = Verified
+mm = AutomaticMM
+everything = AMess
+
+paradigms = [ Functional ]
+parallelism = [ ]
+features = [ Closures, NominalTyping, TypeInference, ParametricPoly, Dependent ]
+concurrency = [ ]
+runtime = [ Stack, Interpreter, GarbageCollector, ErrorHandling, Unifier ]
+
+orthogonality = Acceptable
+example =
+  """
+  From Coq Require Import ssreflect ssrfun ssrbool.
+  From mathcomp Require Import eqtype ssrnat div prime.
+
+  (* A proof of the infinitude of primes, by Georges Gonthier *)
+  Lemma prime_above m : {p | m < p & prime p}.
+  Proof.
+  have /pdivP[p pr_p p_dv_m1]: 1 < m`! + 1
+    by rewrite addn1 ltnS fact_gt0.
+  exists p => //; rewrite ltnNge; apply: contraL p_dv_m1 => p_le_m.
+  by rewrite dvdn_addr ?dvdn_fact ?prime_gt0 // gtnNdvd ?prime_gt1.
+  Qed.
+  """
