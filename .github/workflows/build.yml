@@ -22,9 +22,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - run: |
-          wget https://github.com/gren-lang/compiler/releases/download/0.3.0/gren_linux
-          chmod +x gren_linux
-          mv gren_linux /usr/local/bin/gren
+          curl -L -o elm.gz https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz
+          gunzip elm.gz
+          chmod +x elm
+          mv elm /usr/local/bin/elm
 
       - run: |
           wget https://github.com/tailwindlabs/tailwindcss/releases/download/v3.3.5/tailwindcss-linux-x64

@@ -10,7 +10,7 @@ Prerequisites:
 - make
 - m4
 - sed
-- [gren](https://gren-lang.org/install)
+- [elm](https://guide.elm-lang.org/install/elm.html)
 - [tailwind](https://tailwindcss.com/docs/installation)
 - Any http server like [mighty](https://github.com/kazu-yamamoto/mighttpd2)
   or [darkhttpd](https://github.com/emikulic/darkhttpd)
@@ -43,7 +43,7 @@ language = "cpp"
 name = "C++"
 ...
 ```
-The available parameters and their meanings are listed in `Lang.gren.in`.
+The available parameters and their meanings are listed in `Lang.elm.in`.
 The `example` should be idiomatic, concise and demonstrate the most important
 or unique language features.
 

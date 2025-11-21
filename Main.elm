@@ -7,8 +7,6 @@ import Html.Attributes as Attr exposing (..)
 import Html.Events exposing (onClick, onInput, onMouseEnter, onMouseLeave)
 import Url
 import Url.Builder as Q
-import Math
-import Set exposing (Set)
 import Dict exposing (Dict)
 
 import Lang exposing (Parameter, Language)
@@ -38,21 +36,21 @@ main =
 -- MODEL
 
 type alias Query =
-  { spec : Array Lang.Specification
-  , status : Array Lang.Status
+  { spec : List Lang.Specification
+  , status : List Lang.Status
   , impl : Maybe Lang.Implementation
   , domain: Maybe Lang.Domain
-  , platform : Array Lang.Platform
-  , typing : Array Lang.Typing
-  , safety : Array Lang.Safety
-  , mm : Array Lang.MemoryManagement
-  , everything : Array Lang.Everything
-  , paradigms : Array Lang.Paradigm
-  , pe : Array Lang.Parallelism
+  , platform : List Lang.Platform
+  , typing : List Lang.Typing
+  , safety : List Lang.Safety
+  , mm : List Lang.MemoryManagement
+  , everything : List Lang.Everything
+  , paradigms : List Lang.Paradigm
+  , pe : List Lang.Parallelism
   , features : Dict String Trilean
   , concurrency : Dict String Trilean
   , runtime : Dict String Trilean
-  , ortho : Array Lang.Orthogonality
+  , ortho : List Lang.Orthogonality
   , helloworld : Int
   }
 
@@ -75,7 +73,7 @@ emptyQuery =
   , helloworld = 1000
   }
 
-encodeQuery : Query -> Array Q.QueryParameter
+encodeQuery : Query -> List Q.QueryParameter
 encodeQuery q =
   [ Q.int "hi" 2 ]
 
@@ -87,17 +85,16 @@ type alias Model =
   , language : Maybe Language
   }
 
-init : {} -> Url.Url -> Nav.Key -> { model : Model, command : Cmd Msg }
+init : {} -> Url.Url -> Nav.Key -> (Model, Cmd Msg)
 init flags url key =
-  { model =
-      { key = key
-      , url = url
-      , tip = "every programming language"
-      , query = emptyQuery
-      , language = Nothing
-      }
-  , command = Cmd.none
-  }
+  ( { key = key
+    , url = url
+    , tip = "every programming language"
+    , query = emptyQuery
+    , language = Nothing
+    }
+  , Cmd.none
+  )
 
 defaultTooltip = "( ͡❛ ͜ʖ ͡❛)"
 
@@ -129,11 +126,11 @@ type Msg
 select : a -> Maybe a -> Maybe a
 select o mo = if mo == Just o then Nothing else Just o 
 
-toggle : a -> Array a -> Array a
+toggle : a -> List a -> List a
 toggle x xs =
-  case Array.member x xs of
-    True -> Array.filter (\y -> y /= x) xs
-    False -> Array.pushLast x xs
+  case List.member x xs of
+    True -> List.filter (\y -> y /= x) xs
+    False -> x :: xs
 
 toggle3 : String -> Dict String Trilean -> Dict String Trilean
 toggle3 opt m =
@@ -142,35 +139,29 @@ toggle3 opt m =
     DontWant -> DontCare
     DontCare -> DoWant) m
 
-query : Model -> (Query -> Query) -> { model : Model, command : Cmd Msg }
+query : Model -> (Query -> Query) -> ( Model, Cmd Msg )
 query m f =
-  { model = { m | query = f m.query }
-  , command = Cmd.none
-  }
+  ( { m | query = f m.query }
+  , Cmd.none
+  )
 
-update : Msg -> Model -> { model : Model, command : Cmd Msg }
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     LinkClicked urlRequest ->
       case urlRequest of
         Browser.Internal url ->
-          { model = model, command = Nav.pushUrl model.key (Url.toString url) }
+          ( model, Nav.pushUrl model.key (Url.toString url) )
 
         Browser.External href ->
-          { model = model, command = Nav.load href }
+          ( model, Nav.load href )
 
     UrlChanged url ->
-      { model = { model | url = url }
-      , command = Cmd.none
-      }
+      ( { model | url = url }, Cmd.none )
     Tooltip tip ->
-      { model = { model | tip = tip }
-      , command = Cmd.none
-      }
+      ( { model | tip = tip }, Cmd.none )
     ShowLanguage l ->
-      { model = { model | language = Just l }
-      , command = Cmd.none
-      }
+      ( { model | language = Just l }, Cmd.none )
     ToggleSpec o        -> query model (\q -> { q | spec        = toggle o q.spec })
     ToggleStatus o      -> query model (\q -> { q | status      = toggle o q.status })
     ToggleImpl o        -> query model (\q -> { q | impl        = select o q.impl })
@@ -217,21 +208,21 @@ view m =
         ]
         [ div [ class "grow pl-1" ] [ ]
         , selectMaybe m.query.domain      Lang.domain      SelectDomain
-        , selectArray m.query.typing      Lang.typing      ToggleTyping
-        , selectArray m.query.safety      Lang.safety      ToggleSafety
-        , selectArray m.query.mm          Lang.mm          ToggleMem
-        , selectArray m.query.paradigms   Lang.paradigm    ToggleParadigm
+        , selectList  m.query.typing      Lang.typing      ToggleTyping
+        , selectList  m.query.safety      Lang.safety      ToggleSafety
+        , selectList  m.query.mm          Lang.mm          ToggleMem
+        , selectList  m.query.paradigms   Lang.paradigm    ToggleParadigm
         , selectDict  m.query.features    Lang.feat        ToggleFeature
         , selectDict  m.query.runtime     Lang.runtime     ToggleRuntime
-        , range m.query.helloworld "Hello World" "Size of a statically linked hello world executable" 0 1000 DragHelloWorld
+        , range       m.query.helloworld "Hello World" "Size of a statically linked hello world executable" 0 1000 DragHelloWorld
         , selectMaybe m.query.impl        Lang.impl        ToggleImpl
-        , selectArray m.query.pe          Lang.pe          TogglePE
+        , selectList  m.query.pe          Lang.pe          TogglePE
         , selectDict  m.query.concurrency Lang.concurrency ToggleConcurrency
-        , selectArray m.query.status      Lang.status      ToggleStatus
-        , selectArray m.query.platform    Lang.platform    TogglePlatform
-        , selectArray m.query.spec        Lang.spec        ToggleSpec
-        , selectArray m.query.ortho       Lang.ortho       ToggleOrtho
-        , selectArray m.query.everything  Lang.everything  ToggleEverything
+        , selectList  m.query.status      Lang.status      ToggleStatus
+        , selectList  m.query.platform    Lang.platform    TogglePlatform
+        , selectList  m.query.spec        Lang.spec        ToggleSpec
+        , selectList  m.query.ortho       Lang.ortho       ToggleOrtho
+        , selectList  m.query.everything  Lang.everything  ToggleEverything
         , div [ class "grow pr-1" ] [ ]
         ]
       , div [ class "flex justify-center" ]
@@ -252,7 +243,7 @@ view m =
             , class "bg-gradient-to-r from-blue-300/90 to-yellow-200/90 shadow-inset"
             , onMouseLeave (Tooltip defaultTooltip)
             ]
-            (Array.map (\l -> viewLogo (filter m.query l) l) Lang.langs)
+            (List.map (\l -> viewLogo (filter m.query l) l) Lang.langs)
           ]
         , div
           [ class "basis-1/2 flex justify-center gap-10"
@@ -297,8 +288,8 @@ booleanStyle b = case b of
 optionMaybeStyle : Maybe a -> a -> Attribute msg
 optionMaybeStyle m opt = booleanStyle (m == Just opt)
 
-optionArrayStyle : Array a -> a -> Attribute msg
-optionArrayStyle m opt = booleanStyle (Array.member opt m)
+optionListStyle : List a -> a -> Attribute msg
+optionListStyle m opt = booleanStyle (List.member opt m)
 
 optionDictStyle : Dict String Trilean -> String -> Attribute msg
 optionDictStyle m opt = trileanStyle (Maybe.withDefault DontCare (Dict.get opt m))
@@ -316,13 +307,13 @@ option style name tip msg opt =
 optionMaybe : Maybe a -> (a -> String) -> (a -> String) -> (a -> Msg) -> a -> Html Msg
 optionMaybe m name tip msg opt = option (optionMaybeStyle m opt) name tip msg opt
 
-optionArray : Array a -> (a -> String) -> (a -> String) -> (a -> Msg) -> a -> Html Msg
-optionArray m name tip msg opt = option (optionArrayStyle m opt) name tip msg opt
+optionList : List a -> (a -> String) -> (a -> String) -> (a -> Msg) -> a -> Html Msg
+optionList m name tip msg opt = option (optionListStyle m opt) name tip msg opt
 
 optionDict : Dict String Trilean -> (a -> String) -> (a -> String) -> (a -> Msg) -> a -> Html Msg
 optionDict m name tip msg opt = option (optionDictStyle m (name opt)) name tip msg opt
 
-paramStyle : String -> Array (Attribute Msg)
+paramStyle : String -> List (Attribute Msg)
 paramStyle tip =
   [ class "flex-none py-3 px-4 shadow-inset3 gap-2 bg-slate-900 rounded-lg"
   , class "flex flex-col w-48 h-80 overflow-y-scroll"
@@ -338,28 +329,28 @@ paramTitle t tip =
     ]
     [ text t ]
 
-param : String -> String -> Array (Html Msg) -> Html Msg
-param t tip a = div (paramStyle tip) (Array.pushFirst (paramTitle t tip) a)
+param : String -> String -> List (Html Msg) -> Html Msg
+param t tip a = div (paramStyle tip) (paramTitle t tip :: a)
 
 selectMaybe : Maybe a -> Parameter a -> (a -> Msg) -> Html Msg
 selectMaybe m p msg =
-  param p.title p.desc (Array.map (optionMaybe m p.name p.tip msg) p.options)
+  param p.title p.desc (List.map (optionMaybe m p.name p.tip msg) p.options)
 
-selectArray : Array a -> Parameter a -> (a -> Msg) -> Html Msg
-selectArray m p msg =
-  param p.title p.desc (Array.map (optionArray m p.name p.tip msg) p.options)
+selectList : List a -> Parameter a -> (a -> Msg) -> Html Msg
+selectList m p msg =
+  param p.title p.desc (List.map (optionList m p.name p.tip msg) p.options)
 
 selectDict : Dict String Trilean -> Parameter a -> (a -> Msg) -> Html Msg
 selectDict m p msg =
-  param p.title p.desc (Array.map (optionDict m p.name p.tip msg) p.options)
+  param p.title p.desc (List.map (optionDict m p.name p.tip msg) p.options)
 
 rangeToBytes : Int -> Int
 rangeToBytes i =
   let f = toFloat i in
-  Math.round (1024 * (2^(f * (17/1000))))
+  round (1024 * (2^(f * (17/1000))))
 
 strRound : Float -> String
-strRound = String.fromInt << Math.truncate
+strRound = String.fromInt << truncate
 
 ppBytes : Int -> String
 ppBytes b =
@@ -421,29 +412,29 @@ viewLogo show l =
 
 -- At least one of the DoWant items in the query must be present in the language
 --
-filterAny : Array a -> a -> Bool
+filterAny : List a -> a -> Bool
 filterAny q l =
-  case Array.isEmpty q of
+  case List.isEmpty q of
     True -> True
-    False -> Array.member l q
+    False -> List.member l q
 
-filterAnyN : Array a -> Array a -> Bool
+filterAnyN : List a -> List a -> Bool
 filterAnyN q l =
-  Array.isEmpty q || not (Array.isEmpty (Array.filter (\i -> Array.member i q) l))
+  List.isEmpty q || not (List.isEmpty (List.filter (\i -> List.member i q) l))
 
 -- All the DoWant items in the query must be present in the language
 -- and all the DontWant items must not be present
 --
-filterAll : Dict String Trilean -> Array a -> (a -> String) -> Bool
+filterAll : Dict String Trilean -> List a -> (a -> String) -> Bool
 filterAll q l f =
-  let ls = Array.map f l in
-  Array.all (\x -> x == True) (Dict.values (Dict.map (\k v -> case v of
-    DoWant -> Array.member k ls
-    DontWant -> not (Array.member k ls)
+  let ls = List.map f l in
+  List.all (\x -> x == True) (Dict.values (Dict.map (\k v -> case v of
+    DoWant -> List.member k ls
+    DontWant -> not (List.member k ls)
     DontCare -> True) q))
 
-filterAllN : Array a -> Array a -> Bool
-filterAllN q l = Array.all (\plat -> Array.member plat l) q
+filterAllN : List a -> List a -> Bool
+filterAllN q l = List.all (\plat -> List.member plat l) q
 
 filter : Query -> Language -> Bool
 filter q l
@@ -466,7 +457,7 @@ filter q l
 
 filterDomain : Query -> Language -> Bool
 filterDomain q l = case q.domain of
-  Just d -> Array.member d l.domain
+  Just d -> List.member d l.domain
   Nothing -> True
 
 safetyRank : Lang.Safety -> Int
@@ -480,7 +471,7 @@ filterSafety : Query -> Language -> Bool
 filterSafety q l = case q.safety of
   [] -> True
   [ Lang.None ] -> l.safety == Lang.None
-  _ -> safetyRank l.safety >= Maybe.withDefault 0 (Array.minimum (Array.map safetyRank q.safety))
+  _ -> safetyRank l.safety >= Maybe.withDefault 0 (List.minimum (List.map safetyRank q.safety))
 
 filterHelloWorld : Query -> Language -> Bool
 filterHelloWorld q l = rangeToBytes q.helloworld >= Bench.helloworld l.language

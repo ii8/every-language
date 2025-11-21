@@ -1,8 +1,8 @@
 main.js
 style.css
 langlist
-Lang.gren
-Bench.gren
+Lang.elm
+Bench.elm
 benchmark/*/*/result
 *.bench
-.gren
+elm-stuff

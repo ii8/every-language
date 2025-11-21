@@ -40,7 +40,7 @@ define(«def»,
 «type $1
 _deftype1(_shift4($@))
 
-$2Options : Array $1
+$2Options : List $1
 $2Options =
 _deflist1(_shift4($@))
 

@@ -4,7 +4,7 @@ module Lang exposing (..)
 type alias Parameter a =
   { title : String
   , desc : String
-  , options : Array a
+  , options : List a
   , name : a -> String
   , tip : a -> String
   }
@@ -17,19 +17,19 @@ type alias Language =
   , status : Status
 
   , impl : Implementation
-  , domain : Array Domain
-  , platform : Array Platform
+  , domain : List Domain
+  , platform : List Platform
 
   , typing : Typing
   , safety : Safety
   , mm : MemoryManagement
   , everything : Everything
 
-  , paradigms : Array Paradigm
-  , parallelism : Array Parallelism
-  , features : Array Feature
-  , concurrency : Array Concurrency
-  , runtime : Array Runtime
+  , paradigms : List Paradigm
+  , parallelism : List Parallelism
+  , features : List Feature
+  , concurrency : List Concurrency
+  , runtime : List Runtime
 
   , orthogonality : Orthogonality
   , example : String
